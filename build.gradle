@@ -9,9 +9,6 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.0-alpha07"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
@@ -19,7 +16,22 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        // https://github.com/TranscodeGroup/lib-module
+        maven { url "https://jitpack.io" }
+        // https://help.github.com/en/github/managing-packages-with-github-packages/configuring-gradle-for-use-with-github-packages
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/selpic-handy-printer/wifilib")
+            def user = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            def key = project.findProperty("gpr.key") ?: System.getenv("PASSWORD")
+            if (!user || !key) {
+                throw new IllegalArgumentException("please set gpr.user and gpr.key in gradle.properties, see: https://help.github.com/en/github/managing-packages-with-github-packages/configuring-gradle-for-use-with-github-packages")
+            }
+            credentials {
+                username = user
+                password = key
+            }
+        }
     }
 }
 
