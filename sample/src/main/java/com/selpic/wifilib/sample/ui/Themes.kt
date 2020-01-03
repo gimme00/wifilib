@@ -41,3 +41,8 @@ val darkThemeColors = SimpleColorPalette(
     isDark = true,
     primary = primaryColor
 )
+
+val emphasisHighTypeOpacity = 0.87f
+val emphasisMediumOpacity = 0.60f
+//val emphasisLowTypeOpacity = 0.45f
+val emphasisDisabledOpacity = 0.38f

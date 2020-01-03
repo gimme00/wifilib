@@ -3,16 +3,20 @@ package com.selpic.sdk.wifilib.android;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.selpic.sdk.wifilib.android.model.DeviceInfo;
 import com.selpic.sdk.wifilib.android.model.SendStatus;
 import com.selpic.sdk.wifilib.android.model.PrintParam;
 import com.selpic.sdk.wifilib.android.model.VirtualFile;
+import com.selpic.sdk.wifilib.android.util.ByteUtil;
 import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
 import com.wzygswbxm.wifilib.comm.Bean.PrintParams;
 import com.wzygswbxm.wifilib.comm.IPrinterHelper;
-import com.wzygswbxm.wifilib.comm.util.ByteUtil;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /*package*/ class SelpicPrinterImpl implements SelpicPrinter {
     private Context mContext;
@@ -22,13 +26,13 @@ import io.reactivex.Single;
     }
 
     @Override
-    public Single<DevStatusBean> getDevStatus() {
-        return IPrinterHelper.get().checkDevStatus().map(it -> it.getResult()).singleOrError();
+    public Single<DeviceInfo> getDeviceInfo() {
+        return IPrinterHelper.get().checkDevStatus().map(it -> new DeviceInfo(it.getResult())).singleOrError();
     }
 
     @Override
-    public Observable<DevStatusBean> receiveDevStatus() {
-        return IPrinterHelper.get().recvDevStatus().map(it -> it.getResult());
+    public Observable<DeviceInfo> receiveDeviceInfo() {
+        return IPrinterHelper.get().recvDevStatus().map(it -> new DeviceInfo(it.getResult()));
     }
 
     @Override
@@ -49,7 +53,10 @@ import io.reactivex.Single;
 
     @Override
     public Observable<SendStatus> sendOta(VirtualFile file) {
-        // TODO:
+        Observable.fromCallable(() -> ByteUtil.readBytes(file.inputStream()))
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
         return null;
     }
 
