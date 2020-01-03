@@ -36,6 +36,10 @@ public class DeviceInfo {
         return mStatus;
     }
 
+    public int getPointPreColumn() {
+        return mStatus.getPointPreColumn();
+    }
+
     @Override
     public String toString() {
         return "DeviceInfo{" +
@@ -43,6 +47,7 @@ public class DeviceInfo {
                 ", versionCode=" + getVersionCode() +
                 ", batteryPercentage=" + getBatteryPercentage() +
                 ", isCharging=" + isCharging() +
+                ", pointPreColumn=" + getPointPreColumn() +
                 '}';
     }
 }

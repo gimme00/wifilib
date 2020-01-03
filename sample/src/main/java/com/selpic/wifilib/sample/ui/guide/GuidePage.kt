@@ -1,6 +1,9 @@
 package com.selpic.wifilib.sample.ui.guide
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.provider.Settings
 import androidx.compose.*
 import androidx.ui.core.*
@@ -158,6 +161,23 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                     )
                 )
                     .attachLoadingState(isSendingState)
+                    .subscribeOrToast(::pass)
+            })
+        }
+        TextColorDivider()
+        Item(title = "Feature 4: Print") {
+            val progressState = +state<Float?> { null }
+            val view: View = +ambient(AndroidComposeViewAmbient)
+            ProgressButton(progress = progressState.value, text = "Print", onClick = {
+                val height = deviceInfo.pointPreColumn
+                val bitmap = Bitmap.createBitmap(height, height, Bitmap.Config.RGB_565)
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+                paint.textSize = height / 2f
+                with(Canvas(bitmap)) {
+                    drawText("Selpic WIFI SDK", height / 2f, 0f, paint)
+                }
+                App.printer.sendPrintData(bitmap)
+                    .attachProgressState(progressState)
                     .subscribeOrToast(::pass)
             })
         }
