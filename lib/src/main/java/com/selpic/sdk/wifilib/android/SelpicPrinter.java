@@ -5,10 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.selpic.sdk.wifilib.android.model.DeviceInfo;
-import com.selpic.sdk.wifilib.android.model.SendStatus;
+import com.selpic.sdk.wifilib.android.model.PacketType;
 import com.selpic.sdk.wifilib.android.model.PrintParam;
 import com.selpic.sdk.wifilib.android.model.VirtualFile;
-import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
 import com.wzygswbxm.wifilib.comm.WifiModuleContext;
 import com.wzygswbxm.wifilib.comm.queue.MyPrintTcpQueueHelper;
 
@@ -47,19 +46,19 @@ public interface SelpicPrinter {
      * @param file
      * @return 订阅后可以获取发送的进度
      */
-    Observable<SendStatus> sendOta(VirtualFile file);
+    Observable<PacketType> sendOta(VirtualFile file, int versionCode);
 
     /**
      * 发送OTA的初始打印数据
      * @param file
      * @return 订阅后可以获取发送的进度
      */
-    Observable<SendStatus> sendPrintDataOta(VirtualFile file);
+    Observable<PacketType> sendPrintDataOta(VirtualFile file);
 
     /**
      * 发送打印数据
      * @param bitmap Bitmap形式的打印数据
      * @return 订阅后可以获取发送的进度
      */
-    Observable<SendStatus> sendPrintData(Bitmap bitmap);
+    Observable<PacketType> sendPrintData(Bitmap bitmap);
 }

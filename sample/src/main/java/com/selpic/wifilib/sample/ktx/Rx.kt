@@ -1,5 +1,6 @@
 package com.selpic.wifilib.sample.ktx
 
+import com.selpic.sdk.wifilib.android.model.PacketType
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable

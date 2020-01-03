@@ -15,18 +15,19 @@ import com.selpic.wifilib.sample.ui.emphasisHighTypeOpacity
 import com.selpic.wifilib.sample.ui.emphasisMediumOpacity
 
 @Composable
-fun Step(
-    index: Int,
-    title: String? = null,
+fun Item(
+    title: String="",
     summary: String? = null,
     children: ComposableFuncation
 ) {
     Padding(padding = 8.dp) {
         Column {
             val typography = +MaterialTheme.typography()
-            Text("Step ${index + 1}${if (title != null) ": $title" else ""}", style = typography.h5.withOpacity(
-                emphasisHighTypeOpacity
-            ))
+            Text(
+                title, style = typography.h5.withOpacity(
+                    emphasisHighTypeOpacity
+                )
+            )
             if (summary != null) {
                 Text(summary, style = typography.body2.withOpacity(emphasisMediumOpacity))
             }
@@ -37,9 +38,8 @@ fun Step(
 
 @Composable
 @Preview
-fun StepPreview() {
-    Step(
-        0,
+fun ItemPreview() {
+    Item(
         title = "title",
         summary = "summary"
     ) {

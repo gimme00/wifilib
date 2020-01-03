@@ -1,5 +1,6 @@
 package com.selpic.sdk.wifilib.android.model;
 
+import com.selpic.sdk.wifilib.android.util.Hide;
 import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
 
 /** 设备信息 */
@@ -28,6 +29,11 @@ public class DeviceInfo {
     /** 充电中 */
     public boolean isCharging() {
         return mStatus.getChargeState() == 1;
+    }
+
+    @Hide
+    public DevStatusBean getStatus() {
+        return mStatus;
     }
 
     @Override

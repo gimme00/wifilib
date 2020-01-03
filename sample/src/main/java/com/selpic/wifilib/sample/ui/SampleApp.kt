@@ -6,6 +6,7 @@ import androidx.compose.state
 import androidx.compose.unaryPlus
 import androidx.ui.core.ContextAmbient
 import androidx.ui.core.Text
+import androidx.ui.foundation.isSystemInDarkTheme
 import androidx.ui.input.KeyboardType
 import androidx.ui.layout.Column
 import androidx.ui.material.MaterialTheme
@@ -17,9 +18,7 @@ import com.selpic.wifilib.sample.ui.guide.GuideScreen
 
 @Composable
 fun SampleApp() {
-    val (isDark, setDark) = +state { (+ambient(ContextAmbient)).isNightMode() }
-
-    MaterialTheme(colors = if (isDark) darkThemeColors else lightThemeColors) {
+    MaterialTheme(colors = if (+isSystemInDarkTheme()) darkThemeColors else lightThemeColors) {
         Surface {
             Column {
                 TopAppBar(title = { Text(AppState.currentScreen.title) })
