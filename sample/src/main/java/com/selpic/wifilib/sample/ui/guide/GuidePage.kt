@@ -126,26 +126,29 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
         }
         TextColorDivider()
         Item(title = "Feature 3: Set print param") {
-            val plusWidthState = +state<Int?> { 12 }
-            val grayScaleState = +state<Int?> { 1 }
-            val voltageState = +state<Int?> { 0 }
+            val (plusWidth, onPlusWidthChange) = +state<Int?> { 12 }
+            val (grayScale, onGrayScaleChange) = +state<Int?> { 1 }
+            val (voltage, onVoltageChange) = +state<Int?> { 0 }
             IntTextInput(
                 modifier = Spacing(top = 8.dp),
-                state = plusWidthState,
+                value = plusWidth,
+                onValueChange = onPlusWidthChange,
                 name = "PlusWidth",
                 defaultValue = 12,
                 hint = ""
             )
             IntTextInput(
                 modifier = Spacing(top = 8.dp),
-                state = grayScaleState,
+                value = grayScale,
+                onValueChange = onGrayScaleChange,
                 name = "ScaleState",
                 defaultValue = 1,
                 hint = ""
             )
             IntTextInput(
                 modifier = Spacing(top = 8.dp, bottom = 8.dp),
-                state = voltageState,
+                value = voltage,
+                onValueChange = onVoltageChange,
                 name = "Voltage",
                 defaultValue = 0,
                 hint = ""
@@ -155,9 +158,9 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
             LoadingButton(isLoading = isSendingState.value, text = "Set", onClick = {
                 App.printer.setPrintParam(
                     PrintParam(
-                        plusWidthState.value ?: 12,
-                        grayScaleState.value ?: 1,
-                        voltageState.value ?: 0
+                        plusWidth ?: 12,
+                        grayScale ?: 1,
+                        voltage ?: 0
                     )
                 )
                     .attachLoadingState(isSendingState)
@@ -167,7 +170,7 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
         TextColorDivider()
         Item(title = "Feature 4: Print") {
             val progressState = +state<Float?> { null }
-            val view: View = +ambient(AndroidComposeViewAmbient)
+         // val view: View = +ambient(AndroidComposeViewAmbient)
             ProgressButton(progress = progressState.value, text = "Print", onClick = {
                 val height = deviceInfo.pointPreColumn
                 val bitmap = Bitmap.createBitmap(height, height, Bitmap.Config.RGB_565)

@@ -20,52 +20,67 @@ import com.selpic.wifilib.sample.ui.widget.currentTextColor
 
 @Composable
 fun IntTextInput(
-    state: State<Int?>,
-    name: String,
-    defaultValue: Int,
-    hint: String = "",
-    modifier: Modifier = Modifier.None
+        value: Int?,
+        onValueChange: (Int?) -> Unit = {},
+        name: String,
+        defaultValue: Int,
+        hint: String = "",
+        modifier: Modifier = Modifier.None
+) {
+    TextInput(
+            value = value?.toString() ?: "",
+            onValueChange = { it.toIntOrNull()?.let(onValueChange) },
+            name = name,
+            defaultValue = defaultValue,
+            modifier = modifier,
+            hint = hint
+    )
+}
+
+@Composable
+fun TextInput(
+        value: String,
+        onValueChange: (String) -> Unit = {},
+        name: String,
+        defaultValue: Int,
+        hint: String = "",
+        modifier: Modifier = Modifier.None
 ) {
     Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(50),
-        border = Border((+currentTextColor()).withOpacity(0.1f), 1.dp)
+            modifier = modifier,
+            shape = RoundedCornerShape(50),
+            border = Border((+currentTextColor()).withOpacity(0.1f), 1.dp)
     ) {
         Padding(left = 16.dp, top = 8.dp, right = 16.dp, bottom = 8.dp) {
             Row {
                 Text(
-                    text = name,
-                    modifier = MinWidth(100.dp),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = (+currentTextStyle()).withOpacity(
-                        emphasisMediumOpacity
-                    )
+                        text = name,
+                        modifier = MinWidth(100.dp),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = (+currentTextStyle()).withOpacity(
+                                emphasisMediumOpacity
+                        )
                 )
                 Stack {
                     aligned(Alignment.BottomLeft) {
-                        if (state.value == null) {
+                        if (value.isEmpty()) {
                             Text(
-                                text = "$hint default=$defaultValue",
-                                style = (+currentTextStyle()).withOpacity(
-                                    emphasisDisabledOpacity
-                                )
+                                    text = "$hint default=$defaultValue",
+                                    style = (+currentTextStyle()).withOpacity(
+                                            emphasisDisabledOpacity
+                                    )
                             )
                         }
                         TextField(
-                            textStyle = (+currentTextStyle()).withOpacity(
-                                emphasisMediumOpacity
-                            ),
-                            modifier = ExpandedWidth,
-                            keyboardType = KeyboardType.Number,
-                            value = state.value?.toString() ?: "",
-                            onValueChange = {
-                                if (it.isEmpty()) {
-                                    state.value = null
-                                } else {
-                                    it.toIntOrNull()?.let { state.value = it }
-                                }
-                            })
+                                textStyle = (+currentTextStyle()).withOpacity(
+                                        emphasisMediumOpacity
+                                ),
+                                modifier = ExpandedWidth,
+                                keyboardType = KeyboardType.Number,
+                                value = value,
+                                onValueChange = onValueChange
+                        )
                     }
                 }
             }
@@ -77,5 +92,5 @@ fun IntTextInput(
 @Preview
 @Composable
 fun ParamIntTextFieldPreview() {
-    IntTextInput(state = +state<Int?> { 1 }, name = "Name", defaultValue = 1, hint = "")
+    IntTextInput(value = 1, name = "Name", defaultValue = 1, hint = "")
 }
