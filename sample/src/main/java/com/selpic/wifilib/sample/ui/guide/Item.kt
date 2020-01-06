@@ -1,7 +1,6 @@
 package com.selpic.wifilib.sample.ui.guide
 
 import androidx.compose.Composable
-import androidx.compose.Key
 import androidx.compose.unaryPlus
 import androidx.ui.core.Text
 import androidx.ui.core.dp

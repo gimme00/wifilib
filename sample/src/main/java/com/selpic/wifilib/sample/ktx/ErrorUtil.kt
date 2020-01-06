@@ -1,8 +1,8 @@
 package com.selpic.wifilib.sample.ktx
 
+import android.content.Context
 import android.util.Log
 import com.selpic.wifilib.sample.App
-import android.content.Context
 
 object ErrorUtil {
     private const val TAG = "ErrorUtil"

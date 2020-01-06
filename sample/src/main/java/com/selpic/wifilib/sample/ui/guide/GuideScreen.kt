@@ -6,15 +6,18 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.provider.Settings
 import androidx.compose.*
-import androidx.ui.core.*
+import androidx.ui.core.ContextAmbient
+import androidx.ui.core.dp
 import androidx.ui.foundation.VerticalScroller
-import androidx.ui.layout.*
+import androidx.ui.layout.Column
+import androidx.ui.layout.HeightSpacer
+import androidx.ui.layout.Spacing
 import androidx.ui.material.Button
 import androidx.ui.tooling.preview.Preview
 import com.selpic.sdk.wifilib.android.model.DeviceInfo
 import com.selpic.sdk.wifilib.android.model.PrintParam
 import com.selpic.wifilib.sample.App
-import com.selpic.wifilib.sample.ktx.*
+import com.selpic.wifilib.sample.ktx.subscribeOrToast
 import com.selpic.wifilib.sample.ui.widget.TextColorDivider
 import com.selpic.wifilib.sample.util.AssertFile
 import io.reactivex.disposables.Disposable
@@ -105,7 +108,7 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                     code
                 )
                     .attachProgressState(progressState)
-                    .subscribeOrToast(::pass)
+                    .subscribeOrToast { }
             })
             HeightSpacer(height = 8.dp)
             val printDataOtaProgressState = +state<Float?> { null }
@@ -120,7 +123,7 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                         )
                     )
                         .attachProgressState(printDataOtaProgressState)
-                        .subscribeOrToast(::pass)
+                        .subscribeOrToast { }
                 }
             )
         }
@@ -164,13 +167,12 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                     )
                 )
                     .attachLoadingState(isSendingState)
-                    .subscribeOrToast(::pass)
+                    .subscribeOrToast { }
             })
         }
         TextColorDivider()
         Item(title = "Feature 4: Print") {
             val progressState = +state<Float?> { null }
-         // val view: View = +ambient(AndroidComposeViewAmbient)
             ProgressButton(progress = progressState.value, text = "Print", onClick = {
                 val height = deviceInfo.pointPreColumn
                 val bitmap = Bitmap.createBitmap(height, height, Bitmap.Config.RGB_565)
@@ -181,7 +183,7 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                 }
                 App.printer.sendPrintData(bitmap)
                     .attachProgressState(progressState)
-                    .subscribeOrToast(::pass)
+                    .subscribeOrToast { }
             })
         }
         TextColorDivider()

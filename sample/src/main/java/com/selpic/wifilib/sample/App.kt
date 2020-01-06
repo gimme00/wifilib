@@ -11,6 +11,7 @@ class App : Application() {
             SelpicPrinter.create(appContext)
         }
     }
+
     init {
         appContext = this
     }

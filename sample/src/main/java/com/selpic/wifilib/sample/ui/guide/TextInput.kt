@@ -1,8 +1,6 @@
 package com.selpic.wifilib.sample.ui.guide
 
 import androidx.compose.Composable
-import androidx.compose.State
-import androidx.compose.state
 import androidx.compose.unaryPlus
 import androidx.ui.core.*
 import androidx.ui.foundation.shape.border.Border
