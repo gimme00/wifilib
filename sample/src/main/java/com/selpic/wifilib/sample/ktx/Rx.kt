@@ -1,5 +1,6 @@
 package com.selpic.wifilib.sample.ktx
 
+import com.selpic.wifilib.sample.util.ErrorUtil
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable

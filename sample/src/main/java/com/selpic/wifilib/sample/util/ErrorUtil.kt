@@ -1,8 +1,9 @@
-package com.selpic.wifilib.sample.ktx
+package com.selpic.wifilib.sample.util
 
 import android.content.Context
 import android.util.Log
 import com.selpic.wifilib.sample.App
+import com.selpic.wifilib.sample.ktx.toast
 
 object ErrorUtil {
     private const val TAG = "ErrorUtil"
@@ -15,10 +16,14 @@ object ErrorUtil {
         }
     }
 
-    fun toast(e: Throwable) = toast(App.appContext, e)
+    fun toast(e: Throwable) =
+        toast(App.appContext, e)
 
     fun toast(context: Context, e: Throwable) {
-        val message = getMessage(context, e) ?: "Unknown error"
+        val message = getMessage(
+            context,
+            e
+        ) ?: "Unknown error"
         if (message.isNotEmpty()) {
             context.toast(message)
         }
