@@ -10,7 +10,7 @@ import androidx.ui.material.Button
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.withOpacity
 import androidx.ui.tooling.preview.Preview
-import com.selpic.wifilib.sample.ktx.ComposableFuncation
+import com.selpic.wifilib.sample.ktx.ComposableFunction
 import com.selpic.wifilib.sample.ui.emphasisHighTypeOpacity
 import com.selpic.wifilib.sample.ui.emphasisMediumOpacity
 
@@ -18,7 +18,7 @@ import com.selpic.wifilib.sample.ui.emphasisMediumOpacity
 fun Item(
     title: String = "",
     summary: String? = null,
-    children: ComposableFuncation
+    children: ComposableFunction
 ) {
     Padding(padding = 8.dp) {
         Column {

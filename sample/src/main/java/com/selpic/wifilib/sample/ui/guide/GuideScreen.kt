@@ -3,34 +3,51 @@ package com.selpic.wifilib.sample.ui.guide
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.provider.Settings
+import android.util.Log
 import androidx.compose.*
-import androidx.ui.core.ContextAmbient
-import androidx.ui.core.dp
+import androidx.ui.core.*
+import androidx.ui.foundation.Clickable
+import androidx.ui.foundation.SimpleImage
 import androidx.ui.foundation.VerticalScroller
+import androidx.ui.foundation.shape.border.Border
+import androidx.ui.foundation.shape.corner.RoundedCornerShape
+import androidx.ui.input.ImeAction
 import androidx.ui.layout.Column
 import androidx.ui.layout.HeightSpacer
 import androidx.ui.layout.Spacing
 import androidx.ui.material.Button
+import androidx.ui.material.MaterialTheme
+import androidx.ui.res.imageResource
+import androidx.ui.res.stringResource
 import androidx.ui.tooling.preview.Preview
 import com.selpic.sdk.wifilib.android.model.DeviceInfo
 import com.selpic.sdk.wifilib.android.model.PrintParam
+import com.selpic.sdk.wifilib.android.util.Mocks
 import com.selpic.wifilib.sample.App
+import com.selpic.wifilib.sample.R
+import com.selpic.wifilib.sample.ktx.currentComposeView
+import com.selpic.wifilib.sample.ktx.currentTextColor
 import com.selpic.wifilib.sample.ktx.subscribeOrToast
+import com.selpic.wifilib.sample.ktx.withOpacity
+import com.selpic.wifilib.sample.ui.dividerOpacity
 import com.selpic.wifilib.sample.ui.widget.TextColorDivider
 import com.selpic.wifilib.sample.util.AssertFile
 import io.reactivex.disposables.Disposable
+import kotlin.math.roundToInt
 
+private val TAG = "GuideScreen"
 @Composable
 fun GuideScreen() {
     val deviceInfoState = +state<DeviceInfo?> { null }
     VerticalScroller() {
         Column {
-            if (deviceInfoState.value == null) {
-                StepGroup(deviceInfoState)
-            } else {
-                FeatureGroup(deviceInfoState)
+            WithDensity {
+                if (deviceInfoState.value == null) {
+                    StepGroup(deviceInfoState)
+                } else {
+                    FeatureGroup(deviceInfoState)
+                }
             }
         }
     }
@@ -67,12 +84,13 @@ fun StepGroup(deviceInfoState: State<DeviceInfo?>) {
 }
 
 @Composable
-fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
+fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
     val context = +ambient(ContextAmbient)
     val (deviceInfo, onDeviceInfoChange) = deviceInfoState
     if (deviceInfo == null) {
         return
     }
+
     Column {
         TextColorDivider()
         Item(
@@ -129,23 +147,23 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
         }
         TextColorDivider()
         Item(title = "Feature 3: Set print param") {
-            val (plusWidth, onPlusWidthChange) = +state<Int?> { 12 }
-            val (grayScale, onGrayScaleChange) = +state<Int?> { 1 }
-            val (voltage, onVoltageChange) = +state<Int?> { 0 }
+            val (plusWidth, onPlusWidthChange) = +state<Int?> { PrintParam.DEFAULT.prtPlusWidth }
+            val (grayScale, onGrayScaleChange) = +state<Int?> { PrintParam.DEFAULT.prtGrayScale }
+            val (voltage, onVoltageChange) = +state<Int?> { PrintParam.DEFAULT.prtVoltage }
             IntTextInput(
                 modifier = Spacing(top = 8.dp),
                 value = plusWidth,
                 onValueChange = onPlusWidthChange,
                 name = "PlusWidth",
-                defaultValue = 12,
+                defaultValue = PrintParam.DEFAULT.prtPlusWidth,
                 hint = ""
             )
             IntTextInput(
                 modifier = Spacing(top = 8.dp),
                 value = grayScale,
                 onValueChange = onGrayScaleChange,
-                name = "ScaleState",
-                defaultValue = 1,
+                name = "GrayScale",
+                defaultValue = PrintParam.DEFAULT.prtGrayScale,
                 hint = ""
             )
             IntTextInput(
@@ -153,7 +171,7 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                 value = voltage,
                 onValueChange = onVoltageChange,
                 name = "Voltage",
-                defaultValue = 0,
+                defaultValue = PrintParam.DEFAULT.prtVoltage,
                 hint = ""
             )
 
@@ -171,22 +189,83 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
             })
         }
         TextColorDivider()
+        val inputModel = +memo {
+            PrintPreviewItemModel(
+                y = (+currentTextStyle()).fontSize.toDp(),
+                isCanDrag = true
+            )
+        }
+        val imageModel = +memo { PrintPreviewItemModel(x = 200.dp) }
+
         Item(title = "Feature 4: Print") {
+            Text(
+                "Preview",
+                modifier = Spacing(left = 8.dp),
+                style = (+MaterialTheme.typography()).body2
+            )
+            var previewCoordinates: LayoutCoordinates? = null
+            PrintPreview(
+                modifier = Spacing(8.dp),
+                shape = RoundedCornerShape(10),
+                border = Border(
+                    (+currentTextColor()).withOpacity(dividerOpacity),
+                    1.dp
+                ),
+                pointPreColumn = deviceInfo.pointPreColumn,
+                onDragStart = { inputModel.isCanDrag = true }
+            ) {
+                OnPositioned {
+                    previewCoordinates = it
+                }
+                item {
+                    Text(+stringResource(R.string.app_name))
+                }
+                item(inputModel) {
+                    val (text, onTextChange) = +state { "TextField" }
+
+                    if (inputModel.isCanDrag) {
+                        Clickable(onClick = { inputModel.isCanDrag = false }) {
+                            Text(text)
+                        }
+                    } else {
+                        TextField(
+                            text,
+                            onValueChange = onTextChange,
+                            imeAction = ImeAction.Done,
+                            onFocus = { inputModel.isCanDrag = false },
+                            onBlur = { inputModel.isCanDrag = true }
+                        )
+                    }
+                }
+                item(imageModel) {
+                    SimpleImage(image = +imageResource(R.drawable.ic_launcher_round))
+                }
+            }
+
             val progressState = +state<Float?> { null }
+            val view = +currentComposeView()
             ProgressButton(progress = progressState.value, text = "Print", onClick = {
-                val height = deviceInfo.pointPreColumn
-                val bitmap = Bitmap.createBitmap(height, height, Bitmap.Config.RGB_565)
-                val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-                paint.textSize = height / 2f
+                val coordinates = previewCoordinates ?: return@ProgressButton
+                val bitmap = Bitmap.createBitmap(
+                    coordinates.size.width.value.roundToInt(),
+                    coordinates.size.height.value.roundToInt(),
+                    Bitmap.Config.RGB_565
+                )
+
                 with(Canvas(bitmap)) {
-                    drawText("Selpic WIFI SDK", height / 2f, 0f, paint)
+                    val origin = coordinates.localToRoot(PxPosition.Origin)
+                    Log.d(TAG, "draw: $origin")
+                    translate(-origin.x.value, -origin.y.value)
+                    view.draw(this)
                 }
                 App.printer.sendPrintData(bitmap)
                     .attachProgressState(progressState)
                     .subscribeOrToast { }
             })
+
         }
         TextColorDivider()
+        HeightSpacer(height = 300.dp)
     }
 }
 
@@ -194,4 +273,13 @@ fun FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
 @Composable
 fun GuidePagePreview() {
     GuideScreen()
+}
+
+
+@Preview
+@Composable
+fun FeatureGroupPreview() {
+    WithDensity {
+        FeatureGroup(deviceInfoState = +state<DeviceInfo?> { Mocks.MOCK_DEVICE_INFO })
+    }
 }

@@ -1,9 +1,9 @@
 package com.selpic.sdk.wifilib.android.model;
 
-import java.util.Objects;
-
 /** 打印参数 */
 public class PrintParam {
+    public static final PrintParam DEFAULT = new PrintParam(12, 2, 1);
+
     private final int PrtPlusWidth;
     private final int PrtGrayScale;
     private final int PrtVoltage;

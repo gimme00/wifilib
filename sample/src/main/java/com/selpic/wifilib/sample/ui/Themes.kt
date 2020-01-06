@@ -46,3 +46,4 @@ val emphasisHighTypeOpacity = 0.87f
 val emphasisMediumOpacity = 0.60f
 //val emphasisLowTypeOpacity = 0.45f
 val emphasisDisabledOpacity = 0.38f
+val dividerOpacity = 0.1f

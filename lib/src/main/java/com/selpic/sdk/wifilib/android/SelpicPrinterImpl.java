@@ -9,14 +9,22 @@ import com.selpic.sdk.wifilib.android.model.PrintParam;
 import com.selpic.sdk.wifilib.android.model.VirtualFile;
 import com.selpic.sdk.wifilib.android.util.ByteUtil;
 import com.selpic.sdk.wifilib.android.util.OtaHelper;
+import com.selpic.sdk.wifilib.android.util.PrintDataHelper;
 import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
+import com.wzygswbxm.wifilib.comm.Bean.DownLoadBegin;
+import com.wzygswbxm.wifilib.comm.Bean.DownLoadEnd;
+import com.wzygswbxm.wifilib.comm.Bean.FileBeginBean;
+import com.wzygswbxm.wifilib.comm.Bean.FileDetailBean;
 import com.wzygswbxm.wifilib.comm.Bean.OtaBean;
 import com.wzygswbxm.wifilib.comm.Bean.OtaBeginBean;
 import com.wzygswbxm.wifilib.comm.Bean.OtaEndBean;
 import com.wzygswbxm.wifilib.comm.Bean.PrintParams;
+import com.wzygswbxm.wifilib.comm.Bean.ResultCodeBean;
+import com.wzygswbxm.wifilib.comm.IPrinter;
 import com.wzygswbxm.wifilib.comm.IPrinterHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -117,6 +125,43 @@ import io.reactivex.schedulers.Schedulers;
 
     @Override
     public Observable<PacketType> sendPrintData(Bitmap bitmap) {
-        return null;
+        DeviceInfo deviceInfo = mDeviceInfo;
+        int pointPreColumn = deviceInfo.getPointPreColumn();
+        if (bitmap.getHeight() != pointPreColumn) {
+            throw new IllegalArgumentException("bitmap.getHeight() must equal to pointPreColumn");
+        }
+        return Observable.just("")
+                .flatMap(it -> {
+                    PrintDataHelper helper = new PrintDataHelper(deviceInfo);
+                    IPrinter printer = IPrinterHelper.get();
+
+                    Bitmap grayedBitmap = PrintDataHelper.convertToBlackWhite(bitmap);
+                    FileBeginBean begin = helper.createBeginBean(grayedBitmap.getWidth(), grayedBitmap.getHeight());
+                    List<PrintDataHelper.DownloadItem> downloadItems = helper.bitmap2Files(grayedBitmap, Collections.singletonList(begin));
+
+                    List<Observable<PacketType>> tasks = new ArrayList<>();
+                    tasks.add(printer.downLoadBegin(new DownLoadBegin(0)).map(__ -> PacketType.Start.INSTANCE));
+                    for (PrintDataHelper.DownloadItem item : downloadItems) {
+                        tasks.add(printer.downLoadFileBegin(item.begin).map(__ -> PacketType.Other.INSTANCE));
+                        for (FileDetailBean detail : item.details) {
+                            tasks.add(printer.downLoadFileDetail(detail).compose(ResultCodeBean.convertResultCodeToException()).map(__ -> new PacketType.Sub(detail.getPackageIndex(), item.begin.getPackageNum())));
+                        }
+                        tasks.add(printer.downLoadFileEnd().map(__ -> PacketType.Other.INSTANCE));
+                    }
+                    tasks.add(printer.downLoadEnd(new DownLoadEnd()).map(itt -> PacketType.End.INSTANCE));
+
+                    return Observable.concat(tasks)
+                            .onErrorResumeNext(throwable -> {
+                                if (throwable instanceof ResultCodeBean.Exception && ((ResultCodeBean.Exception) throwable).getCode() == ResultCodeBean.CODE_DEV_STORAGE_FULL) {
+                                    return Observable.concat(
+                                            printer.downLoadFileEnd().map(__ -> PacketType.Other.INSTANCE),
+                                            printer.downLoadEnd(new DownLoadEnd()).map(__ -> PacketType.End.INSTANCE)
+                                    );
+                                }
+                                return Observable.error(throwable);
+                            });
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
