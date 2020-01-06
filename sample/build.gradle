@@ -37,7 +37,7 @@ android {
 
 dependencies {
     implementation(project(':lib'))
-//    implementation 'com.selpic.sdk:wifilib:1.0.2@aar'
+//    implementation('com.selpic.sdk:wifilib:1.0.3@aar') { transitive = true }
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.1.0'
