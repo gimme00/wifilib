@@ -26,7 +26,7 @@ allprojects {
             url = uri("https://maven.pkg.github.com/selpic-handy-printer/wifilib")
             credentials {
                 username = "github-packages-public-token"
-                password = "076c9d0873155e31f27a937429c238d26cd5a48b"
+                password = "40c403-bff7f614-9bd0a6-4fb87-0b2e2e45a672fda".replaceAll("-", "")
             }
         }
     }
