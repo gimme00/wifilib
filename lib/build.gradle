@@ -43,7 +43,7 @@ dependencies {
 apply plugin: 'digital.wup.android-maven-publish'
 
 group = 'com.selpic.sdk'
-version = '1.0.3'
+version = wifilib_version
 archivesBaseName = 'wifilib'
 
 publishing {
