@@ -9,3 +9,7 @@ inline fun pass() {
 inline fun <T> pass(t: T) {
 
 }
+
+fun debugger(){
+    println("debugger")
+}

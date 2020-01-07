@@ -9,13 +9,22 @@ import androidx.ui.core.*
 import androidx.ui.core.gesture.DragObserver
 import androidx.ui.core.gesture.TouchSlopDragGestureDetector
 import androidx.ui.engine.geometry.Shape
+import androidx.ui.foundation.DrawImage
 import androidx.ui.foundation.shape.RectangleShape
 import androidx.ui.foundation.shape.border.Border
-import androidx.ui.layout.ExpandedWidth
-import androidx.ui.layout.Height
-import androidx.ui.layout.Stack
+import androidx.ui.graphics.Image
+import androidx.ui.layout.*
 import androidx.ui.material.surface.Surface
 import com.selpic.wifilib.sample.ktx.ComposableFunction
+
+@Composable
+fun PrintPreviewImage(image: Image) {
+    WithDensity {
+        Container(modifier = ExpandedHeight wraps AspectRatio(1f)) {
+            DrawImage(image = image)
+        }
+    }
+}
 
 @Model
 data class PrintPreviewItemModel(

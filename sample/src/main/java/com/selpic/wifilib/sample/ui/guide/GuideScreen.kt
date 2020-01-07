@@ -2,13 +2,13 @@ package com.selpic.wifilib.sample.ui.guide
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Camera
 import android.graphics.Canvas
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.*
 import androidx.ui.core.*
 import androidx.ui.foundation.Clickable
-import androidx.ui.foundation.SimpleImage
 import androidx.ui.foundation.VerticalScroller
 import androidx.ui.foundation.shape.border.Border
 import androidx.ui.foundation.shape.corner.RoundedCornerShape
@@ -26,10 +26,7 @@ import com.selpic.sdk.wifilib.android.model.PrintParam
 import com.selpic.sdk.wifilib.android.util.Mocks
 import com.selpic.wifilib.sample.App
 import com.selpic.wifilib.sample.R
-import com.selpic.wifilib.sample.ktx.currentComposeView
-import com.selpic.wifilib.sample.ktx.currentTextColor
-import com.selpic.wifilib.sample.ktx.subscribeOrToast
-import com.selpic.wifilib.sample.ktx.withOpacity
+import com.selpic.wifilib.sample.ktx.*
 import com.selpic.wifilib.sample.ui.dividerOpacity
 import com.selpic.wifilib.sample.ui.widget.TextColorDivider
 import com.selpic.wifilib.sample.util.AssertFile
@@ -238,7 +235,7 @@ fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                     }
                 }
                 item(imageModel) {
-                    SimpleImage(image = +imageResource(R.drawable.ic_launcher_round))
+                    PrintPreviewImage(+imageResource(R.drawable.supperman_yes))
                 }
             }
 
@@ -255,6 +252,14 @@ fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                 with(Canvas(bitmap)) {
                     val origin = coordinates.localToRoot(PxPosition.Origin)
                     Log.d(TAG, "draw: $origin")
+                    if (deviceInfo.typeName == DeviceInfo.P1 || deviceInfo.typeName == DeviceInfo.S1_PLUS) {
+                        val matrix = Camera().apply {
+                            rotateX(180f)
+                        }.toMatrix()
+                        matrix.preTranslate(0f, -bitmap.height / 2f)
+                        matrix.postTranslate(0f, bitmap.height / 2f)
+                        concat(matrix)
+                    }
                     translate(-origin.x.value, -origin.y.value)
                     view.draw(this)
                 }
