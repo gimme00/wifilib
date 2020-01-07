@@ -25,6 +25,7 @@ allprojects {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/selpic-handy-printer/wifilib")
             credentials {
+                // replace to yourself github account
                 username = "github-packages-public-token"
                 password = "40c403-bff7f614-9bd0a6-4fb87-0b2e2e45a672fda".replaceAll("-", "")
             }
