@@ -1,27 +1,17 @@
 package com.selpic.sdk.wifilib.android;
 
-import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.selpic.sdk.wifilib.android.model.DeviceInfo;
 import com.selpic.sdk.wifilib.android.model.PacketType;
 import com.selpic.sdk.wifilib.android.model.PrintParam;
 import com.selpic.sdk.wifilib.android.model.VirtualFile;
-import com.wzygswbxm.wifilib.comm.WifiModuleContext;
-import com.wzygswbxm.wifilib.comm.queue.MyPrintTcpQueueHelper;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
+/** 打印机的功能接口 */
 public interface SelpicPrinter {
-    static SelpicPrinter create(Context context) {
-        // init wifi-core
-        WifiModuleContext.setAppContext(context);
-        MyPrintTcpQueueHelper.setmMyPrintTcpQueueHelper(new MyPrintTcpQueueHelper((Application) context.getApplicationContext()));
-        return new SelpicPrinterImpl(context);
-    }
-
     /**
      * 获取设备信息
      * @return
@@ -57,7 +47,7 @@ public interface SelpicPrinter {
 
     /**
      * 发送打印数据
-     * @param bitmap Bitmap形式的打印数据
+     * @param bitmap Bitmap形式的打印数据, 必须保证它的高度等于{@link DeviceInfo#getPointPreColumn()}
      * @return 订阅后可以获取发送的进度
      */
     Observable<PacketType> sendPrintData(Bitmap bitmap);

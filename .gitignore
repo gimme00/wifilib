@@ -89,3 +89,4 @@ lint/tmp/
 .project
 .classpath
 org.eclipse.*
+report.txt

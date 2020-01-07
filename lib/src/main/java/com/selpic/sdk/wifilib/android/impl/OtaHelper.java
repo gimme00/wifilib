@@ -1,26 +1,23 @@
-package com.selpic.sdk.wifilib.android.util;
+package com.selpic.sdk.wifilib.android.impl;
 
 import com.wzygswbxm.wifilib.comm.Bean.OtaBean;
 import com.wzygswbxm.wifilib.comm.Bean.OtaBeginBean;
 import com.wzygswbxm.wifilib.comm.Bean.OtaEndBean;
 import com.wzygswbxm.wifilib.comm.IPrinterHelper;
-import com.wzygswbxm.wifilib.comm.ProcessPub;
 import com.wzygswbxm.wifilib.comm.processer.Process_COMM_FUNCTION_OTA;
 import com.wzygswbxm.wifilib.comm.processer.Process_COMM_FUNCTION_OTA_BEGIN;
 import com.wzygswbxm.wifilib.comm.processer.Process_COMM_FUNCTION_OTA_END;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 
-import static com.wzygswbxm.wifilib.comm.PRINT_CONST.RETRY_TIMES;
 import static com.wzygswbxm.wifilib.comm.util.ByteUtil.byte2ToInt;
 import static com.wzygswbxm.wifilib.comm.util.ByteUtil.intToByte4;
 import static com.wzygswbxm.wifilib.comm.util.CRC16Utils.obtainCRC16;
 
-abstract public class OtaHelper {
+/*package*/ abstract class OtaHelper {
     public OtaBeginBean createOtaBeginPacket(
             byte[] otabytes,
             int transferMTU,
@@ -92,6 +89,7 @@ abstract public class OtaHelper {
             return IPrinterHelper.get().otaEndSend(endBean);
         }
     }
+
     public static class PrintData extends OtaHelper {
         public Observable<? extends Process_COMM_FUNCTION_OTA_BEGIN> otaBeginSend(OtaBeginBean beginBean) {
             return IPrinterHelper.get().printDataOtaBeginSend(beginBean);

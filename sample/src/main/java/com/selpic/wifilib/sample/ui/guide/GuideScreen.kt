@@ -252,7 +252,7 @@ fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                 with(Canvas(bitmap)) {
                     val origin = coordinates.localToRoot(PxPosition.Origin)
                     Log.d(TAG, "draw: $origin")
-                    if (deviceInfo.typeName == DeviceInfo.P1 || deviceInfo.typeName == DeviceInfo.S1_PLUS) {
+                    if (deviceInfo.typeName == DeviceInfo.TYPE_NAME_P1 || deviceInfo.typeName == DeviceInfo.TYPE_NAME_S1_PLUS) {
                         val matrix = Camera().apply {
                             rotateX(180f)
                         }.toMatrix()

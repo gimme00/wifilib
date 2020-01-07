@@ -1,4 +1,4 @@
-package com.selpic.sdk.wifilib.android.util;
+package com.selpic.sdk.wifilib.android.impl;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -17,7 +17,7 @@ import static com.wzygswbxm.wifilib.comm.Bean.FileBeginBean.TYPE_LEVE2;
 import static com.wzygswbxm.wifilib.comm.util.ByteUtil.byte2OxString;
 import static com.wzygswbxm.wifilib.comm.util.ByteUtil.int2OxString;
 
-public class PrintDataHelper {
+/*package*/ class PrintDataHelper {
     public static Bitmap convertToBlackWhite(Bitmap bmp) {
         int width = bmp.getWidth(); // 获取位图的宽
         int height = bmp.getHeight(); // 获取位图的高

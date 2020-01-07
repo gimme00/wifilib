@@ -1,15 +1,14 @@
-package com.selpic.sdk.wifilib.android;
+package com.selpic.sdk.wifilib.android.impl;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.selpic.sdk.wifilib.android.SelpicPrinter;
 import com.selpic.sdk.wifilib.android.model.DeviceInfo;
 import com.selpic.sdk.wifilib.android.model.PacketType;
 import com.selpic.sdk.wifilib.android.model.PrintParam;
 import com.selpic.sdk.wifilib.android.model.VirtualFile;
 import com.selpic.sdk.wifilib.android.util.ByteUtil;
-import com.selpic.sdk.wifilib.android.util.OtaHelper;
-import com.selpic.sdk.wifilib.android.util.PrintDataHelper;
 import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
 import com.wzygswbxm.wifilib.comm.Bean.DownLoadBegin;
 import com.wzygswbxm.wifilib.comm.Bean.DownLoadEnd;

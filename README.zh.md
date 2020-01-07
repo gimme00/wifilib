@@ -38,7 +38,7 @@ allprojects {
 创建全局单例
 
 ```kotlin
-val printer = SelpicPrinter.create(appContext)
+val printer = SelpicPrinterFactory.create(appContext)
 ```
 
 获取设备信息

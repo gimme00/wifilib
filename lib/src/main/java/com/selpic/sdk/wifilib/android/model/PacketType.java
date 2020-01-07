@@ -17,10 +17,12 @@ public interface PacketType {
             mTotal = total;
         }
 
+        /** 第几个包 */
         public int getIndex() {
             return mIndex;
         }
 
+        /** 总包数 */
         public int getTotal() {
             return mTotal;
         }

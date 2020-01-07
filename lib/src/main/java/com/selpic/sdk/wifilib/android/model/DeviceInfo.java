@@ -5,9 +5,9 @@ import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
 
 /** 设备信息 */
 public class DeviceInfo {
-    public static final String S1 = "1.0";
-    public static final String S1_PLUS = "1.1";
-    public static final String P1 = "1.2";
+    public static final String TYPE_NAME_S1 = "1.0";
+    public static final String TYPE_NAME_S1_PLUS = "1.1";
+    public static final String TYPE_NAME_P1 = "1.2";
 
     private DevStatusBean mStatus;
 
@@ -40,6 +40,7 @@ public class DeviceInfo {
         return mStatus;
     }
 
+    /** 每列的点数 */
     public int getPointPreColumn() {
         return mStatus.getPointPreColumn();
     }
