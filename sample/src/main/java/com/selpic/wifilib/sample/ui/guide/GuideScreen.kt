@@ -2,7 +2,6 @@ package com.selpic.wifilib.sample.ui.guide
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Camera
 import android.graphics.Canvas
 import android.provider.Settings
 import android.util.Log
@@ -26,7 +25,10 @@ import com.selpic.sdk.wifilib.android.model.PrintParam
 import com.selpic.sdk.wifilib.android.util.Mocks
 import com.selpic.wifilib.sample.App
 import com.selpic.wifilib.sample.R
-import com.selpic.wifilib.sample.ktx.*
+import com.selpic.wifilib.sample.ktx.currentComposeView
+import com.selpic.wifilib.sample.ktx.currentTextColor
+import com.selpic.wifilib.sample.ktx.subscribeOrToast
+import com.selpic.wifilib.sample.ktx.withOpacity
 import com.selpic.wifilib.sample.ui.dividerOpacity
 import com.selpic.wifilib.sample.ui.widget.TextColorDivider
 import com.selpic.wifilib.sample.util.AssertFile
@@ -113,11 +115,12 @@ fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
         TextColorDivider()
         Item(title = "Feature 2: OTA") {
             val progressState = +state<Float?> { null }
-            val code = 18
+            val code = 19
+            val name = "2.8"
             ProgressButton(progress = progressState.value, text = "OTA", onClick = {
                 App.printer.sendOta(
                     AssertFile(
-                        "ota/${deviceInfo.typeName}_2.7_$code.bin",
+                        "ota/${deviceInfo.typeName}_${name}_$code.bin",
                         context.assets
                     ),
                     code
@@ -133,7 +136,7 @@ fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                 onClick = {
                     App.printer.sendPrintDataOta(
                         AssertFile(
-                            "ota/${deviceInfo.typeName}_2.7_$code.print.bin",
+                            "ota/${deviceInfo.typeName}_${name}_$code.print.bin",
                             context.assets
                         )
                     )
@@ -253,12 +256,8 @@ fun DensityScope.FeatureGroup(deviceInfoState: State<DeviceInfo?>) {
                     val origin = coordinates.localToRoot(PxPosition.Origin)
                     Log.d(TAG, "draw: $origin")
                     if (deviceInfo.typeName == DeviceInfo.TYPE_NAME_P1 || deviceInfo.typeName == DeviceInfo.TYPE_NAME_S1_PLUS) {
-                        val matrix = Camera().apply {
-                            rotateX(180f)
-                        }.toMatrix()
-                        matrix.preTranslate(0f, -bitmap.height / 2f)
-                        matrix.postTranslate(0f, bitmap.height / 2f)
-                        concat(matrix)
+                        // vertical mirror
+                        scale(1f, -1f, bitmap.width / 2f, bitmap.height / 2f)
                     }
                     translate(-origin.x.value, -origin.y.value)
                     view.draw(this)
