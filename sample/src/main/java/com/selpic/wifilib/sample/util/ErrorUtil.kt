@@ -8,7 +8,7 @@ import com.selpic.wifilib.sample.ktx.toast
 object ErrorUtil {
     private const val TAG = "ErrorUtil"
     /**
-     * @return 返回"", 表示不应该显示toast; 返回null, 表示是未知错误;
+     * @return return "", indicating that toast should not be displayed; return null, indicates an unknown error;
      */
     fun getMessage(context: Context, e: Throwable): String? {
         return when (e) {

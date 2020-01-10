@@ -4,7 +4,7 @@ import com.selpic.sdk.wifilib.android.model.DeviceInfo;
 
 import androidx.annotation.VisibleForTesting;
 
-/** 仅用与测试 */
+/** for test use only */
 @VisibleForTesting
 public class Mocks {
     public static DeviceInfo MOCK_DEVICE_INFO = new DeviceInfo(null) {

@@ -3,7 +3,7 @@ package com.selpic.sdk.wifilib.android.util;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-/** 注解lib内部使用的方法, 外部不应该调用 */
+/** Note:  Methods used by lib internally, external should not call */
 @Retention(RetentionPolicy.SOURCE)
 public @interface Hide {
 }

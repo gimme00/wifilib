@@ -1,13 +1,13 @@
 package com.selpic.sdk.wifilib.android.model;
 
-/** 发送数据包的类型 */
+/** Type of package you're sending */
 public interface PacketType {
-    /** 开始包 */
+    /** Start package */
     class Start implements PacketType {
         public static final Start INSTANCE = new Start();
     }
 
-    /** 子包 */
+    /** Subpackage */
     class Sub implements PacketType {
         private final int mIndex;
         private final int mTotal;
@@ -17,23 +17,23 @@ public interface PacketType {
             mTotal = total;
         }
 
-        /** 第几个包 */
+        /** Which package */
         public int getIndex() {
             return mIndex;
         }
 
-        /** 总包数 */
+        /** Total number of package */
         public int getTotal() {
             return mTotal;
         }
     }
 
-    /** 其他包 */
+    /** Other package */
     class Other implements PacketType {
         public static final Other INSTANCE = new Other();
     }
 
-    /** 结束包 */
+    /** End package */
     class End implements PacketType {
         public static final End INSTANCE = new End();
     }

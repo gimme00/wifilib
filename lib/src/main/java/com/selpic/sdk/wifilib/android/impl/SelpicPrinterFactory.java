@@ -8,7 +8,7 @@ import com.wzygswbxm.wifilib.comm.WifiModuleContext;
 import com.wzygswbxm.wifilib.comm.queue.MyPrintTcpQueueHelper;
 
 public class SelpicPrinterFactory {
-    /** 创建{@link SelpicPrinter}实例 */
+    /** create {@link SelpicPrinter} instance */
     public static SelpicPrinter create(Context context) {
         // init wifi-core
         WifiModuleContext.setAppContext(context);

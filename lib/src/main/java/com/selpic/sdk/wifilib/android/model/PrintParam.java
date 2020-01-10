@@ -1,6 +1,6 @@
 package com.selpic.sdk.wifilib.android.model;
 
-/** 打印参数 */
+/** Printing parameter */
 public class PrintParam {
     public static final PrintParam DEFAULT = new PrintParam(12, 2, 1);
 
@@ -9,9 +9,9 @@ public class PrintParam {
     private final int PrtVoltage;
 
     /**
-     * @param prtPlusWidth 打印脉冲宽度
-     * @param prtGrayScale 打印灰度
-     * @param prtVoltage   打印电压
+     * @param prtPlusWidth Printing pulse width
+     * @param prtGrayScale Printing gray level
+     * @param prtVoltage   Printing voltage
      */
     public PrintParam(int prtPlusWidth, int prtGrayScale, int prtVoltage) {
         PrtPlusWidth = prtPlusWidth;
@@ -19,17 +19,17 @@ public class PrintParam {
         PrtVoltage = prtVoltage;
     }
 
-    /** 打印脉冲宽度 */
+    /** Printing pulse width */
     public int getPrtPlusWidth() {
         return PrtPlusWidth;
     }
 
-    /** 打印灰度 */
+    /** Printing gray level */
     public int getPrtGrayScale() {
         return PrtGrayScale;
     }
 
-    /** 打印电压 */
+    /** Printing voltage */
     public int getPrtVoltage() {
         return PrtVoltage;
     }

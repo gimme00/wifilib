@@ -3,7 +3,7 @@ package com.selpic.sdk.wifilib.android.model;
 import com.selpic.sdk.wifilib.android.util.Hide;
 import com.wzygswbxm.wifilib.comm.Bean.DevStatusBean;
 
-/** 设备信息 */
+/** Device information */
 public class DeviceInfo {
     public static final String TYPE_NAME_S1 = "1.0";
     public static final String TYPE_NAME_S1_PLUS = "1.1";
@@ -15,22 +15,22 @@ public class DeviceInfo {
         this.mStatus = mStatus;
     }
 
-    /** 类型名 */
+    /** Typename */
     public String getTypeName() {
         return mStatus.getClassName();
     }
 
-    /** 版本号 */
+    /** Version code */
     public int getVersionCode() {
         return mStatus.getVersionCode();
     }
 
-    /** 电量百分比 */
+    /** Battery percentage */
     public float getBatteryPercentage() {
         return mStatus.getBatteryCapacity() / 100f;
     }
 
-    /** 充电中 */
+    /** Charging */
     public boolean isCharging() {
         return mStatus.getChargeState() == 1;
     }
@@ -40,7 +40,7 @@ public class DeviceInfo {
         return mStatus;
     }
 
-    /** 每列的点数 */
+    /** Points per column */
     public int getPointPreColumn() {
         return mStatus.getPointPreColumn();
     }
