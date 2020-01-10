@@ -9,7 +9,7 @@ English|[Chinese](./README.zh.md)
 ## Add a dependency
 
 ```groovy
-implementation('com.selpic.sdk:wifilib:1.1.0@aar') { transitive = true }
+implementation('com.selpic.sdk:wifilib:1.1.1@aar') { transitive = true }
 ```
 
 Add contents for `build.gradle` in project root directory as follows:
@@ -33,7 +33,7 @@ allprojects {
 }
 ```
 
-## Apply
+## Usages
 
 Create global instance
 
@@ -73,4 +73,4 @@ printer.sendPrintData(bitmap)
 
 ## API documentation
 
-[API reference](https://jitpack.io/com/github/selpic-handy-printer/wifilib/1.1.0/javadoc/)
+[API reference](https://jitpack.io/com/github/selpic-handy-printer/wifilib/1.1.1/javadoc/)

@@ -9,7 +9,7 @@
 ## 添加依赖
 
 ```groovy
-implementation('com.selpic.sdk:wifilib:1.1.0@aar') { transitive = true }
+implementation('com.selpic.sdk:wifilib:1.1.1@aar') { transitive = true }
 ```
 
 项目根目录下的`build.gradle`需要添加如下内容：
@@ -73,4 +73,4 @@ printer.sendPrintData(bitmap)
 
 ## API文档
 
-[API reference](https://jitpack.io/com/github/selpic-handy-printer/wifilib/1.1.0/javadoc/)
+[API reference](https://jitpack.io/com/github/selpic-handy-printer/wifilib/1.1.1/javadoc/)
