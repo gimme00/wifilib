@@ -1,9 +1,26 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'im.fir.plugin.gradle'
+
+fir {
+    apiToken project.properties['publish.fir.key']
+    changeLog 'sample'
+}
 
 android {
     compileSdkVersion 29
+
+    signingConfigs {
+        release {
+            if (project.properties['keyStore.print.release.storeFile'] != null) {
+                storeFile file(project.properties['keyStore.print.release.storeFile'])
+                storePassword project.properties['keyStore.print.release.storePassword']
+                keyAlias project.properties['keyStore.print.release.keyAlias']
+                keyPassword project.properties['keyStore.print.release.keyPassword']
+            }
+        }
+    }
 
     defaultConfig {
         applicationId "com.selpic.wifilib.sample"
@@ -20,6 +37,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
