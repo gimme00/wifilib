@@ -73,4 +73,4 @@ printer.sendPrintData(bitmap)
 
 ## API documentation
 
-[API reference](https://jitpack.io/com/github/selpic-handy-printer/wifilib/1.1.1/javadoc/)
+[API reference](https://jitpack.io/com/github/selpic-handy-printer/wifilib/master-SNAPSHOT/javadoc/)
