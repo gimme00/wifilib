@@ -1,8 +1,10 @@
 # wifilib
 
 [![GitHub release](https://img.shields.io/github/release/selpic-handy-printer/wifilib.svg)](https://github.com/selpic-handy-printer/wifilib/releases/latest)
-[![sample](https://img.shields.io/badge/fir.im-sample-brightgreen)](https://fir.im/tmqu)
+[![GitHub packages](https://img.shields.io/badge/packages-wifilib-blue)](https://github.com/selpic-handy-printer/wifilib/packages/95003)
 [![jitpack](https://jitpack.io/v/selpic-handy-printer/wifilib.svg)](https://jitpack.io/#selpic-handy-printer/wifilib)
+[![docs](https://img.shields.io/badge/docs-master-orange)](https://jitpack.io/com/github/selpic-handy-printer/wifilib/master-SNAPSHOT/javadoc/)
+[![sample](https://img.shields.io/badge/fir.im-sample-yellow)](https://fir.im/tmqu)
 [![license|MIT](https://img.shields.io/github/license/selpic-handy-printer/wifilib)](https://github.com/selpic-handy-printer/wifilib/blob/master/LICENSE)
 
 [English](./README.md)|Chinese
