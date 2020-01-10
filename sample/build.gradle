@@ -8,12 +8,13 @@ fir {
     changeLog 'sample'
 }
 
+def isHasStoreFile = project.properties['keyStore.print.release.storeFile'] != null
 android {
     compileSdkVersion 29
 
     signingConfigs {
-        release {
-            if (project.properties['keyStore.print.release.storeFile'] != null) {
+        if (isHasStoreFile) {
+            release {
                 storeFile file(project.properties['keyStore.print.release.storeFile'])
                 storePassword project.properties['keyStore.print.release.storePassword']
                 keyAlias project.properties['keyStore.print.release.keyAlias']
@@ -37,7 +38,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (isHasStoreFile) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {
